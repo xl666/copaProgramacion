@@ -2,3 +2,4 @@
 /media/
 /**/*.pyc
 /casosprueba.txt
+*.log
