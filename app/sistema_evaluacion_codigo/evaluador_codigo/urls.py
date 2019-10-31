@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^login/', anonimo.iniciar_sesion, name="login"),
     url(r'^academicos/registro', anonimo.registrar_academico, name="registrar_academico"),
     url(r'^alumnos/registro', anonimo.registrar_alumno, name="registrar_alumno"),
+    url(r'^equipos/registro', anonimo.registrar_equipo, name="registrar_equipo"),
 
     # urls compartidas
     url(r'^$', general.inicio, name="inicio"),
@@ -70,5 +71,5 @@ urlpatterns = [
     url(r'^cursos-(?P<pk_curso>\d+)/examenes-(?P<pk_examen>\d+)$', alumno.ver_detalle_examen, name="examen_detalle"),
     url(r'^cursos-(?P<pk_curso>\d+)/examenes-(?P<pk_examen>\d+)/ejercicios-(?P<pk_ejercicio>[0-9A-Fa-f-]+)$',
         alumno.resolver_ejercicio_examen, name="resolver_ejercicio_examen"),
-
+    
     ]

@@ -31,6 +31,10 @@ class AlumnoAdmin(admin.ModelAdmin):
     list_display = ("user",)
     paginate_by = 15
 
+class EquipoAdmin(admin.ModelAdmin):
+    list_display = ("user",)
+    paginate_by = 15
+
 
 class CursoAdmin(admin.ModelAdmin):
     list_display = ("nrc", "exp_educativa", "periodo", "bloque", "seccion")

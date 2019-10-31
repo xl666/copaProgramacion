@@ -1,0 +1,142 @@
+{% extends "anonimo/compartido/base.html" %}
+{% load crispy_forms_tags %}
+{% block tittle%} Registro de equipo {% endblock %}
+
+{% block contenido %}
+<section class="content">
+  <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="panel panel-info">
+      <div class="panel-heading" style="background:#003366; color:white;">
+	<div class="panel-title">Registra a tu equipo</div>
+      </div>
+      <div style="padding-top:30px" class="panel-body">
+	{% include "general/info_error.html" %}
+	{% include "general/info_success.html" %}
+	<form id="loginform" method='post' action="{% url 'registrar_equipo' %}" class="form-horizontal"
+	      role="form">{% csrf_token %}
+	  <div class="form-group">
+	    <label for="nombreEquipo" class="col-md-3 control-label">Nombre del equipo</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="nombreEquipo" placeholder=""
+		     maxlength="150" required>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="nombreMaestro" class="col-md-3 control-label">Nombre del maestro</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="nombreMaestro" maxlength="100" placeholder="" required>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="correoMaestro" class="col-md-3 control-label">Correo electrónico del maestro</label>
+	    <div class="col-md-9">
+	      <input type="email" class="form-control" name="correoMaestro" maxlength="254" placeholder=""
+		     required>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="nombreAlumno1" class="col-md-3 control-label">Nombre del alumno (1)</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="nombreAlumno1" maxlength="100" placeholder="" required>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="correoAlumno1" class="col-md-3 control-label">Correo electrónico del alumno (1)</label>
+	    <div class="col-md-9">
+	      <input type="email" class="form-control" name="correoAlumno1" maxlength="254" placeholder=""
+		     required>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="nombreAlumno2" class="col-md-3 control-label">Nombre del alumno (2)</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="nombreAlumno2" maxlength="100" placeholder="" required>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="correoAlumno2" class="col-md-3 control-label">Correo electrónico del alumno (2)</label>
+	    <div class="col-md-9">
+	      <input type="email" class="form-control" name="correoAlumno2" maxlength="254" placeholder=""
+		     required>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="nombreAlumno3" class="col-md-3 control-label">Nombre del alumno (3)</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="nombreAlumno3" maxlength="100" placeholder="" required>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="correoAlumno3" class="col-md-3 control-label">Correo electrónico del alumno (3)</label>
+	    <div class="col-md-9">
+	      <input type="email" class="form-control" name="correoAlumno3" maxlength="254" placeholder=""
+		     required>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="universidad" class="col-md-3 control-label">Universidad</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="universidad" placeholder=""
+		     maxlength="100" required>
+	    </div>
+	  </div>
+
+	  <div class="form-group">
+	    <label for="licenciatura" class="col-md-3 control-label">Licenciatura</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="licenciatura" placeholder=""
+		     maxlength="100" required>
+	    </div>
+	  </div>
+
+	  <div class="form-group">
+	    <label for="ciudad" class="col-md-3 control-label">Ciudad</label>
+	    <div class="col-md-9">
+	      <input type="text" class="form-control" name="ciudad" placeholder=""
+		     maxlength="100" required>
+	    </div>
+	  </div>
+	  
+
+	  <div class="form-group">
+	    <label for="password" class="col-md-3 control-label">Contraseña</label>
+	    <div class="col-md-9">
+	      <input type="password" class="form-control" maxlength="128" name="password" placeholder=""
+		     required>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="conf_password" class="col-md-3 control-label">Confirmación de contraseña</label>
+	    <div class="col-md-9">
+	      <input type="password" class="form-control" maxlength="128" name="conf_password"
+		     placeholder="" required>
+	    </div>
+	  </div>
+	  <div style="margin-top:10px" class="form-group">
+	    <div class="col-sm-12 controls">
+	      <p style=" text-align: center;">
+		<button type="submit" class="btn btn-success">Guardar</button>
+	      </p>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-md-12 control">
+	      <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+		¿Ya tienes una cuenta?
+		<a href="{% url 'login' %}" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+		  Inicia sesión
+		</a>
+	      </div>
+	    </div>
+	  </div>
+	</form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

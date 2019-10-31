@@ -401,10 +401,11 @@ class EjerciciosExamenes(models.Model):
         return reverse("resolver_ejercicio_examen",
                        args=[str(self.examen.curso.pk), str(self.examen.pk), str(self.ejercicio.pk)])
 
-
+    
+    
 class Alumno(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
-    matricula = models.CharField("Matrícula", null=False, blank=False, max_length=9, unique=True)
+    matricula = models.CharField("Matrícula", null=False, blank=False, max_length=9, unique=False)
     licenciatura = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, null=False, blank=False)
     cursos = models.ManyToManyField(Curso, related_name="alumnos")
     respuestas_examenes = models.ManyToManyField(EjerciciosExamenes, through='RespuestasExamenes')
@@ -424,6 +425,34 @@ class Alumno(models.Model):
         pass
 
 
+class Equipo(models.Model):
+    alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE, null=False, blank=False)
+    nombre_equipo= models.CharField("Nombre del equipo", null=False, blank=False, max_length=100, unique=False)
+    nombre_maestro= models.CharField("Nombre del maestro", null=False, blank=False, max_length=100, unique=False)
+    correo_maestro = models.EmailField("Correo electrónico del maestro")
+    nombre_alumno1 = models.CharField("Nombre del alumno (1)", null=False, blank=False, max_length=100, unique=False)
+    correo_alumno1 = models.EmailField("Correo electrónico del alumno (1)")
+    nombre_alumno2 = models.CharField("Nombre del alumno (2)", null=False, blank=False, max_length=100, unique=False)
+    correo_alumno2 = models.EmailField("Correo electrónico del alumno (2)")
+    nombre_alumno3 = models.CharField("Nombre del alumno (3)", null=False, blank=False, max_length=100, unique=False)
+    correo_alumno3 = models.EmailField("Correo electrónico del alumno (3)")
+    universidad = models.CharField("Universidad", null=False, blank=False, max_length=100, unique=False)
+    licenciatura = models.CharField("Licenciatura", null=False, blank=False, max_length=100, unique=False)
+    ciudad = models.CharField("Ciudad", null=False, blank=False, max_length=100, unique=False)
+
+    class Meta:
+        verbose_name = "Equipo"
+        verbose_name_plural = "Equipos"
+
+    def __str__(self):
+        return self.nombre_equipo
+        
+    def __unicode__(self):
+        return self.nombre_equipo
+
+
+
+    
 def get_upload_respuesta_practica(instance, filename):
     file_extension = os.path.splitext(filename)[1]
     file_path = os.path.join("practicas", "practica" + str(instance.ejercicio.practica.id),

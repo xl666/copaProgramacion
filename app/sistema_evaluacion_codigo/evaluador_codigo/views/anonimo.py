@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
 
 from evaluador_codigo.decorators import logout_required
-from evaluador_codigo.models import Academico, Alumno, Licenciatura, User
+from evaluador_codigo.models import Academico, Alumno, Licenciatura, User, Equipo
 
 
 @logout_required
@@ -27,7 +27,58 @@ def iniciar_sesion(request):
             context["error"] = 'Verifique usuario y contraseña'
         return render(request, template, context)
 
+def hay_campos_vacios(listaCampos):
+    campos = list(filter(lambda x: not x.strip() == '', listaCampos))
+    return len(listaCampos) != len(campos)
+    
+@logout_required
+def registrar_equipo(request):
+    template = "anonimo/registro_equipo.html"
+    context = {"licenciaturas": Licenciatura.objects.all()}
+    if request.method == 'GET':
+        return render(request, template, context)
+    elif request.method == 'POST':
+        nombre_equipo = request.POST.get('nombreEquipo', '')
+        nombre_maestro = request.POST.get('nombreMaestro', '')
+        correo_maestro = request.POST.get('correoMaestro', '')
+        nombre_alumno1 = request.POST.get('nombreAlumno1', '')
+        correo_alumno1 = request.POST.get('correoAlumno1', '')
+        nombre_alumno2 = request.POST.get('nombreAlumno2', '')
+        correo_alumno2 = request.POST.get('correoAlumno2', '')
+        nombre_alumno3 = request.POST.get('nombreAlumno3', '')
+        correo_alumno3 = request.POST.get('correoAlumno3', '')
+        universidad = request.POST.get('universidad', '')
+        licenciatura = request.POST.get('licenciatura', '')
+        ciudad = request.POST.get('ciudad', '')
+        password1 = request.POST.get('password', '')
+        password2 = request.POST.get('conf_password', '')
 
+        if(hay_campos_vacios([nombre_equipo, nombre_maestro, correo_maestro, nombre_alumno1, correo_alumno1, nombre_alumno2, correo_alumno2, nombre_alumno3, correo_alumno3, universidad, licenciatura, ciudad, password1, password2])) :
+            context["error"] = "Falta uno o más campos"
+            return render(request, template, context)
+        if password1 != password2:
+            context["error"] = "La contraseña no coincide con su confirmación"
+            return render(request, template, context)
+
+        try:
+            user = User.objects.create_user(username=nombre_equipo, first_name=nombre_equipo,
+                                        last_name=nombre_equipo,
+                                        password=password1, email=correo_maestro, is_student=True)
+            lic = Licenciatura.objects.get(id=1)
+            alumno = Alumno.objects.create(user=user, matricula='S100000', licenciatura=lic)
+            Equipo.objects.create(alumno=alumno, nombre_equipo=nombre_equipo, nombre_maestro=nombre_maestro,
+                                  correo_maestro=correo_maestro, nombre_alumno1=nombre_alumno1,
+                                  correo_alumno1=correo_alumno1, nombre_alumno2=nombre_alumno2,
+                                  correo_alumno2=correo_alumno2, nombre_alumno3=nombre_alumno3,
+                                  correo_alumno3=correo_alumno3, universidad=universidad,
+                                  licenciatura=licenciatura, ciudad=ciudad)
+            context["exito"] = "Usuario " + user.username + " registrado exitosamente"
+            return render(request, template, context)
+        except Exception as e:
+            print(e)
+            context["error"] = "El usuario ya existe en el sistema"
+            return render(request, template, context)
+        
 @logout_required
 def registrar_alumno(request):
     template = "anonimo/registro_alumno.html"
