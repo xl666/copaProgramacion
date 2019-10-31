@@ -32,7 +32,7 @@ class AlumnoAdmin(admin.ModelAdmin):
     paginate_by = 15
 
 class EquipoAdmin(admin.ModelAdmin):
-    list_display = ("user",)
+    list_display = ("nombre_equipo",)
     paginate_by = 15
 
 
@@ -106,3 +106,4 @@ admin.site.register(Practica, PracticaAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Tema, TemaAdmin)
 admin.site.register(Examen, ExamenAdmin)
+admin.site.register(Equipo, EquipoAdmin)
